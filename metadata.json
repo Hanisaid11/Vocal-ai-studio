@@ -1,0 +1,6 @@
+{
+  "name": "VocalMaster Pro",
+  "description": "Professional mobile vocal training, pitch-matching, voice profiling, and vocalise ecosystem.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
