@@ -1,4 +1,4 @@
-import { VocalRangeProfile, PracticeSessionRecord, UserStats } from '../types/vocal';
+import { VocalRangeProfile, PracticeSessionRecord, UserStats, LevelProgressRecord, ExerciseExecutionMode } from '../types/vocal';
 import { getDefaultVocalProfile } from './noteUtils';
 
 const DB_NAME = 'VocalMasterProDB';
@@ -349,6 +349,7 @@ export interface FullAppDataBackup {
   profile: VocalRangeProfile;
   stats: UserStats;
   settings: AppSettings;
+  levelsProgress?: Record<number, LevelProgressRecord>;
 }
 
 /**
@@ -358,6 +359,7 @@ export async function createFullDataBackup(): Promise<FullAppDataBackup> {
   const profile = await loadVocalProfile();
   const stats = loadUserStats();
   const settings = loadAppSettings();
+  const levelsProgress = loadLevelsProgress();
 
   return {
     version: 1,
@@ -366,6 +368,7 @@ export async function createFullDataBackup(): Promise<FullAppDataBackup> {
     profile,
     stats,
     settings,
+    levelsProgress,
   };
 }
 
@@ -381,6 +384,9 @@ export async function restoreDataFromBackup(backup: FullAppDataBackup): Promise<
   localStorage.setItem(LOCAL_STORAGE_STATS_KEY, JSON.stringify(backup.stats));
   if (backup.settings) {
     saveAppSettings(backup.settings);
+  }
+  if (backup.levelsProgress) {
+    saveAllLevelsProgress(backup.levelsProgress);
   }
 
   return true;
@@ -473,3 +479,102 @@ export function saveSongProgressRecord(record: SongProgressRecord): SongProgress
   return existing;
 }
 
+/**
+ * Progressive Training Curriculum Levels Storage
+ */
+const LOCAL_STORAGE_LEVELS_PROGRESS_KEY = 'vocalmaster_levels_progress_v1';
+
+export function getDefaultLevelsProgress(): Record<number, LevelProgressRecord> {
+  const initial: Record<number, LevelProgressRecord> = {};
+  for (let id = 1; id <= 20; id++) {
+    initial[id] = {
+      levelId: id,
+      unlocked: id === 1, // Level 1 is always unlocked by default
+      completed: false,
+      bestAccuracy: 0,
+      stars: 0,
+      attemptsCount: 0,
+    };
+  }
+  return initial;
+}
+
+export function loadLevelsProgress(): Record<number, LevelProgressRecord> {
+  const defaults = getDefaultLevelsProgress();
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_LEVELS_PROGRESS_KEY);
+    if (!raw) return defaults;
+    const parsed: Record<number, LevelProgressRecord> = JSON.parse(raw);
+    // Merge with defaults to ensure any new levels exist and Level 1 is at least unlocked
+    const merged = { ...defaults, ...parsed };
+    if (!merged[1]) {
+      merged[1] = defaults[1];
+    } else {
+      merged[1].unlocked = true;
+    }
+    return merged;
+  } catch (err) {
+    console.error('Failed to load levels progress:', err);
+    return defaults;
+  }
+}
+
+export function saveAllLevelsProgress(progress: Record<number, LevelProgressRecord>): void {
+  try {
+    localStorage.setItem(LOCAL_STORAGE_LEVELS_PROGRESS_KEY, JSON.stringify(progress));
+  } catch (err) {
+    console.error('Failed to save all levels progress:', err);
+  }
+}
+
+export function saveLevelProgress(
+  levelId: number,
+  accuracy: number,
+  stars: number,
+  mode: ExerciseExecutionMode
+): Record<number, LevelProgressRecord> {
+  const all = loadLevelsProgress();
+  const current = all[levelId] || {
+    levelId,
+    unlocked: true,
+    completed: false,
+    bestAccuracy: 0,
+    stars: 0,
+    attemptsCount: 0,
+  };
+
+  const isCompleted = accuracy >= 80;
+  const newBestAcc = Math.max(current.bestAccuracy, Math.round(accuracy));
+  const newStars = Math.max(current.stars, stars);
+
+  all[levelId] = {
+    ...current,
+    unlocked: true,
+    completed: current.completed || isCompleted,
+    bestAccuracy: newBestAcc,
+    stars: newStars,
+    bestMode: mode,
+    lastPlayedDate: new Date().toISOString(),
+    attemptsCount: current.attemptsCount + 1,
+  };
+
+  // If passed with >= 80%, unlock the next level
+  if (isCompleted && levelId < 20) {
+    const nextLevelId = levelId + 1;
+    if (!all[nextLevelId]) {
+      all[nextLevelId] = {
+        levelId: nextLevelId,
+        unlocked: true,
+        completed: false,
+        bestAccuracy: 0,
+        stars: 0,
+        attemptsCount: 0,
+      };
+    } else {
+      all[nextLevelId].unlocked = true;
+    }
+  }
+
+  saveAllLevelsProgress(all);
+  return all;
+}

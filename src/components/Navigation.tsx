@@ -1,9 +1,9 @@
-import { Piano, Mic, Flame, Target, BarChart2, Gamepad2, Music } from 'lucide-react';
+import { Piano, Mic, Flame, Target, BarChart2, Gamepad2, Music, Award } from 'lucide-react';
 import { AppLanguage } from '../types/vocal';
 import { translations } from '../utils/i18n';
 import { haptics } from '../utils/haptics';
 
-export type ActiveTab = 'piano' | 'songMatch' | 'profiler' | 'games' | 'warmup' | 'trainer' | 'analytics';
+export type ActiveTab = 'piano' | 'levels' | 'songMatch' | 'profiler' | 'games' | 'warmup' | 'trainer' | 'analytics';
 
 interface NavigationProps {
   activeTab: ActiveTab;
@@ -16,6 +16,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onChangeTab, 
 
   const navItems: Array<{ id: ActiveTab; label: string; icon: React.ComponentType<{ className?: string }> }> = [
     { id: 'piano', label: t.piano, icon: Piano },
+    { id: 'levels', label: t.levels, icon: Award },
     { id: 'songMatch', label: t.songMatch, icon: Music },
     { id: 'profiler', label: t.profiler, icon: Mic },
     { id: 'games', label: t.games, icon: Gamepad2 },

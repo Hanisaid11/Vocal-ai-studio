@@ -191,6 +191,29 @@ export interface Translations {
   beats2: string;
   beats1: string;
   soundProfileSection: string;
+  levels: string;
+  levelsTitle: string;
+  levelsDesc: string;
+  dualModePiano: string;
+  dualModeVocal: string;
+  listenSequence: string;
+  playSequence: string;
+  singTargetNote: string;
+  tapTargetKey: string;
+  levelPassed: string;
+  levelFailed: string;
+  nextLevel: string;
+  retryExercise: string;
+  tierBeginner: string;
+  tierIntermediate: string;
+  tierAdvanced: string;
+  tierVirtuoso: string;
+  starsEarned: string;
+  accuracy: string;
+  pitchLocked: string;
+  holdPitchPrompt: string;
+  centsTolerance: string;
+  levelNumber: string;
 }
 
 export const translations: Record<AppLanguage, Translations> = {
@@ -385,6 +408,29 @@ export const translations: Record<AppLanguage, Translations> = {
     breakdownChord: 'Deconstruct Notes',
     tierUnlockedToast: 'New Ear Training Tier Unlocked!',
     startProgression: 'Start Ear Progression',
+    levels: 'Levels',
+    levelsTitle: 'Sight-Reading & Performance Curriculum',
+    levelsDesc: 'Master sight-reading and vocal accuracy step-by-step from beginner to virtuoso',
+    dualModePiano: 'Piano Mode',
+    dualModeVocal: 'Vocal Mode',
+    listenSequence: 'Listen Sequence',
+    playSequence: 'Play Sequence',
+    singTargetNote: 'Sing Target Note',
+    tapTargetKey: 'Tap Target Key',
+    levelPassed: 'Level Cleared!',
+    levelFailed: 'Try Again',
+    nextLevel: 'Next Level',
+    retryExercise: 'Retry Exercise',
+    tierBeginner: 'Beginner',
+    tierIntermediate: 'Intermediate',
+    tierAdvanced: 'Advanced',
+    tierVirtuoso: 'Virtuoso',
+    starsEarned: 'Stars',
+    accuracy: 'Accuracy',
+    pitchLocked: 'Pitch Locked',
+    holdPitchPrompt: 'Hold steady in tune (+/- 15¢)...',
+    centsTolerance: 'Tolerance +/- 15¢',
+    levelNumber: 'Level',
   },
   ar: {
     appName: 'فوكال ماستر برو',
@@ -577,6 +623,29 @@ export const translations: Record<AppLanguage, Translations> = {
     breakdownChord: 'تفكيك النغمات بالترتيب',
     tierUnlockedToast: 'مبارك! تم فتح مستوى تدريب سمعي جديد!',
     startProgression: 'بدء سلّم تدريب الأذن',
+    levels: 'مراحل التدريب',
+    levelsTitle: 'منهاج قراءة النوتة والأداء الثنائي (بيانو + غناء)',
+    levelsDesc: 'تدرج خطوة بخطوة من المبتدئ إلى الاحتراف عبر قراءة النوتات والعزف والغناء بدقة عالية',
+    dualModePiano: 'وضع البيانو 🎹',
+    dualModeVocal: 'وضع الغناء 🎙️',
+    listenSequence: 'استمع للجملة',
+    playSequence: 'تشغيل الجملة',
+    singTargetNote: 'غنِّ النغمة المستهدفة',
+    tapTargetKey: 'المس المفتاح المطلوب',
+    levelPassed: 'رائع! تم اجتياز المرحلة!',
+    levelFailed: 'حاول مجدداً لتجاوز 80%',
+    nextLevel: 'المرحلة التالية',
+    retryExercise: 'إعادة المحاولة',
+    tierBeginner: 'مبتدئ',
+    tierIntermediate: 'متوسط',
+    tierAdvanced: 'متقدم',
+    tierVirtuoso: 'محترف بارع',
+    starsEarned: 'النجوم',
+    accuracy: 'نسبة الدقة',
+    pitchLocked: 'تم تثبيت النغمة بدقة!',
+    holdPitchPrompt: 'ثبّت نغمتك بدقة (+/- 15 سنت)...',
+    centsTolerance: 'نسبة التسامح +/- 15 سنت',
+    levelNumber: 'المستوى',
   },
 };
 

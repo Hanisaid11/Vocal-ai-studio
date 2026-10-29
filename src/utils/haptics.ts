@@ -58,4 +58,36 @@ export const haptics = {
       }
     }
   },
+
+  // Aliases for clear semantic feedback
+  success: () => {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate([15, 30, 25]);
+      } catch {
+        // Ignore
+      }
+    }
+  },
+
+  error: () => {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate([40, 30, 40]);
+      } catch {
+        // Ignore
+      }
+    }
+  },
+
+  warning: () => {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate([50, 40, 50]);
+      } catch {
+        // Ignore
+      }
+    }
+  },
 };
+

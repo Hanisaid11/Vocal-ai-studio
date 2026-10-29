@@ -10,6 +10,7 @@ import { OfflineBanner } from './components/OfflineBanner';
 import { PianoView } from './components/Piano/PianoView';
 import { VoiceProfiler } from './components/Profiler/VoiceProfiler';
 import { PitchGamesHub } from './components/Games/PitchGamesHub';
+import { ProgressiveCurriculumView } from './components/Levels/ProgressiveCurriculumView';
 import { SongMatchStudio } from './components/SongMatch/SongMatchStudio';
 import { WarmupRoutines } from './components/Exercises/WarmupRoutines';
 import { PitchTrainer } from './components/Training/PitchTrainer';
@@ -278,6 +279,17 @@ export default function App() {
               </div>
             </div>
           </div>
+        )}
+
+        {activeTab === 'levels' && (
+          <ProgressiveCurriculumView
+            profile={profile}
+            currentPitch={currentPitch}
+            language={settings.language}
+            notation={settings.notation}
+            theme={settings.theme}
+            onOpenPiano={() => setActiveTab('piano')}
+          />
         )}
 
         {activeTab === 'songMatch' && (

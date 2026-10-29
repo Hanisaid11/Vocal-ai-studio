@@ -122,3 +122,46 @@ export interface DriveSyncStatus {
   driveFileId?: string | null;
   error?: string | null;
 }
+
+/**
+ * Level-Based Progressive Training Curriculum (Sight-Reading & Dual Performance)
+ */
+export type CurriculumTier = 'beginner' | 'intermediate' | 'advanced' | 'virtuoso';
+export type ExerciseExecutionMode = 'piano' | 'vocal';
+
+export interface LevelNoteStep {
+  midi: number;
+  noteName: string;
+  durationMs?: number;
+  solfege?: string;
+  arabic?: string;
+  hint?: string;
+}
+
+export interface TrainingLevelConfig {
+  id: number;
+  titleEn: string;
+  titleAr: string;
+  subtitleEn: string;
+  subtitleAr: string;
+  tier: CurriculumTier;
+  notes: LevelNoteStep[];
+  requiredAccuracy: number; // e.g. 80
+  tempoBpm: number;
+  keyCenter: string;
+  targetRegister: string;
+  descriptionEn: string;
+  descriptionAr: string;
+}
+
+export interface LevelProgressRecord {
+  levelId: number;
+  unlocked: boolean;
+  completed: boolean;
+  bestAccuracy: number; // 0 - 100
+  stars: number; // 0 - 3
+  bestMode?: ExerciseExecutionMode;
+  lastPlayedDate?: string;
+  attemptsCount: number;
+}
+
